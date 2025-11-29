@@ -92,6 +92,47 @@ body {
     gap: 4px;
 }
 
+/* ========== 專案資料夾（上半部） ========== */
+
+.project-item {
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.project-item:hover {
+    background: #020617;
+}
+
+.project-item-icon {
+    width: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.project-item-name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.project-add-item .project-item-name {
+    font-weight: 500;
+}
+
+.project-more-item {
+    color: #9ca3af;
+}
+
+/* ========== 聊天列表（下半部：你的聊天） ========== */
+
 .conversation-item {
     font-size: 13px;
     padding: 8px 10px;
@@ -127,6 +168,7 @@ body {
     flex-shrink: 0;
 }
 
+/* ⭐ 收藏 / 加入專案 */
 .conversation-star-btn {
     border: none;
     background: transparent;
@@ -137,30 +179,11 @@ body {
     flex-shrink: 0;
     opacity: 0.8;
 }
-
 .conversation-star-btn:hover {
     opacity: 1;
 }
 
-/* ⭐ 對話刪除按鈕 */
-.conversation-delete-btn {
-    border: none;
-    background: transparent;
-    color: #9ca3af;
-    font-size: 14px;
-    cursor: pointer;
-    padding: 0;
-    flex-shrink: 0;
-    opacity: 0.7;
-    transition: color 0.15s ease, opacity 0.15s ease;
-}
-
-.conversation-delete-btn:hover {
-    opacity: 1;
-    color: #f87171;
-}
-
-/* ✏️ 重新命名按鈕 */
+/* ✏️ 重新命名 */
 .conversation-rename-btn {
     border: none;
     background: transparent;
@@ -172,13 +195,29 @@ body {
     opacity: 0.7;
     transition: color 0.15s ease, opacity 0.15s ease;
 }
-
 .conversation-rename-btn:hover {
     opacity: 1;
-    color: #fbbf24; /* 黃一點，看起來像編輯 */
+    color: #fbbf24;
 }
 
-/* scrollbar for sidebar list */
+/* 🗑 刪除 */
+.conversation-delete-btn {
+    border: none;
+    background: transparent;
+    color: #9ca3af;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    opacity: 0.7;
+    transition: color 0.15s ease, opacity 0.15s ease;
+}
+.conversation-delete-btn:hover {
+    opacity: 1;
+    color: #f87171;
+}
+
+/* scrollbar for sidebar */
 .conversation-list::-webkit-scrollbar {
     width: 6px;
 }
@@ -284,7 +323,6 @@ body {
 }
 
 /* Typing indicator */
-
 .typing-indicator {
     display: inline-flex;
     gap: 4px;
@@ -318,33 +356,29 @@ body {
     }
 }
 
-/* Input area */
+/* ========== Input area ========== */
 
 .input-area {
     display: flex;
     gap: 8px;
-    padding: 10px 12px;
+    padding: 12px 16px;
     border-top: 1px solid rgba(148, 163, 184, 0.4);
-    background: #020617cc;
-    backdrop-filter: blur(12px);
+    background: #020617;
+    align-items: flex-end;
 }
 
 .input-box {
     flex: 1;
     resize: none;
-    border-radius: 999px;
+    border-radius: 12px;
     border: 1px solid rgba(148, 163, 184, 0.9);
     background: #020617;
     color: #e5e7eb;
-    padding: 8px 12px;
+    padding: 8px 10px;
     font-size: 14px;
     outline: none;
-    max-height: 120px;
+    max-height: 200px;
     line-height: 1.4;
-}
-
-.input-box::placeholder {
-    color: #6b7280;
 }
 
 .input-box:focus {
@@ -354,22 +388,13 @@ body {
 
 .send-button {
     border: none;
-    border-radius: 999px;
-    padding: 0 16px;
+    border-radius: 12px;
+    padding: 8px 16px;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     background: linear-gradient(135deg, #22c55e, #16a34a);
     color: #f9fafb;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-}
-
-.send-button:disabled {
-    opacity: 0.5;
-    cursor: default;
 }
 
 /* Scrollbar for chat */
@@ -378,21 +403,14 @@ body {
     width: 6px;
 }
 
-.chat-container::-webkit-scrollbar-track {
-    background: transparent;
-}
-
 .chat-container::-webkit-scrollbar-thumb {
     background: #4b5563;
     border-radius: 999px;
 }
 
-/* Responsive：手機先簡單隱藏 sidebar */
+/* Responsive：手機隱藏 sidebar */
 @media (max-width: 768px) {
     .sidebar {
         display: none;
-    }
-    .app {
-        height: 100vh;
     }
 }

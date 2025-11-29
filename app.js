@@ -3,7 +3,7 @@ const chatForm = document.getElementById("chatForm");
 const userInput = document.getElementById("userInput");
 const sendButton = document.getElementById("sendButton");
 const newChatButton = document.getElementById("newChatButton");
-const projectList = document.getElementById("projectList");
+// 專案整個拿掉，只保留一個對話列表
 const conversationList = document.getElementById("conversationList");
 const currentConversationTitleEl = document.getElementById("currentConversationTitle");
 
@@ -49,7 +49,7 @@ function createConversation() {
         id,
         title: "新對話",
         messages: [],        // {role: "user" | "assistant", text: string}
-        isProject: false,    // 是否標記為專案
+        // isProject 移除
     };
     conversations.unshift(conv); // 新的放最上
     currentConversationId = id;
@@ -97,14 +97,9 @@ function scrollToBottom() {
 }
 
 function renderSidebar() {
-    projectList.innerHTML = "";
+    // 不再分 projectList / conversationList，只渲染一個列表
     conversationList.innerHTML = "";
-
-    const projects = conversations.filter(c => c.isProject);
-    const histories = conversations.filter(c => !c.isProject);
-
-    renderConversationList(projectList, projects);
-    renderConversationList(conversationList, histories);
+    renderConversationList(conversationList, conversations);
 }
 
 function renderConversationList(container, list) {
@@ -120,26 +115,9 @@ function renderConversationList(container, list) {
 
         const title = document.createElement("div");
         title.classList.add("conversation-item-title");
+        title.textContent = conv.title || "新對話";
 
-        // 專案用 📁 當資料夾 icon
-        if (conv.isProject) {
-            title.textContent = "📁 " + (conv.title || "新專案");
-        } else {
-            title.textContent = conv.title || "新對話";
-        }
-
-        // ⭐ 專案按鈕
-        const starBtn = document.createElement("button");
-        starBtn.classList.add("conversation-star-btn");
-        starBtn.textContent = conv.isProject ? "★" : "☆";
-        starBtn.title = conv.isProject ? "移出專案" : "加入專案";
-
-        starBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            conv.isProject = !conv.isProject;
-            saveToStorage();
-            renderSidebar();
-        });
+        // 移除 ⭐ 專案按鈕、✏️ 保留、🗑 保留
 
         // ✏️ 重新命名按鈕
         const renameBtn = document.createElement("button");
@@ -174,7 +152,6 @@ function renderConversationList(container, list) {
         item.appendChild(dot);
         item.appendChild(title);
         item.appendChild(renameBtn);
-        item.appendChild(starBtn);
         item.appendChild(deleteBtn);
 
         item.addEventListener("click", () => {
@@ -194,12 +171,8 @@ function renderConversation() {
 
     if (!conv) return;
 
-    // 上方標題：專案加 📁，一般對話不加
-    if (conv.isProject) {
-        currentConversationTitleEl.textContent = "📁 " + (conv.title || "新專案");
-    } else {
-        currentConversationTitleEl.textContent = conv.title || "新對話";
-    }
+    // 直接顯示標題，不再判斷是否為專案
+    currentConversationTitleEl.textContent = conv.title || "新對話";
 
     if (conv.messages.length === 0) {
         const welcome = createMessageRow(
@@ -260,8 +233,8 @@ function createTypingRow() {
     }
 
     bubble.appendChild(indicator);
-    row.appendChild(avatar);
     row.appendChild(bubble);
+    row.appendChild(avatar);
 
     return row;
 }
@@ -363,12 +336,12 @@ newChatButton.addEventListener("click", () => {
     createConversation();
 });
 
-// 點擊上方標題可以重新命名目前對話 / 專案
+// 點擊上方標題可以重新命名目前對話
 currentConversationTitleEl.addEventListener("click", () => {
     const conv = getCurrentConversation();
     if (!conv) return;
 
-    const newName = window.prompt("請輸入此對話／專案的新名稱：", conv.title || "新對話");
+    const newName = window.prompt("請輸入此對話的新名稱：", conv.title || "新對話");
     if (newName && newName.trim()) {
         conv.title = newName.trim();
         saveToStorage();
