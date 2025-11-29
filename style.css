@@ -159,6 +159,25 @@ body {
     opacity: 1;
     color: #f87171;
 }
+
+/* ✏️ 重新命名按鈕 */
+.conversation-rename-btn {
+    border: none;
+    background: transparent;
+    color: #9ca3af;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    opacity: 0.7;
+    transition: color 0.15s ease, opacity 0.15s ease;
+}
+
+.conversation-rename-btn:hover {
+    opacity: 1;
+    color: #fbbf24; /* 黃一點，看起來像編輯 */
+}
+
 /* scrollbar for sidebar list */
 .conversation-list::-webkit-scrollbar {
     width: 6px;
@@ -377,3 +396,5 @@ body {
         height: 100vh;
     }
 }
+
+
