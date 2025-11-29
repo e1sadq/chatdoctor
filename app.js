@@ -387,6 +387,3 @@ window.addEventListener("DOMContentLoaded", () => {
         renderConversation();
     }
 });
-
-
-
