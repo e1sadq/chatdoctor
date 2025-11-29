@@ -67,13 +67,11 @@ function deleteConversation(id) {
     const idx = conversations.findIndex(c => c.id === id);
     if (idx === -1) return;
 
-    // 確認視窗（避免誤按）
     const ok = window.confirm("確定要刪除此對話紀錄嗎？此動作無法復原。");
     if (!ok) return;
 
     conversations.splice(idx, 1);
 
-    // 如果刪掉的是當前對話，要切換到其他或新建
     if (currentConversationId === id) {
         if (conversations.length > 0) {
             currentConversationId = conversations[0].id;
@@ -122,32 +120,60 @@ function renderConversationList(container, list) {
 
         const title = document.createElement("div");
         title.classList.add("conversation-item-title");
-        title.textContent = conv.title || "新對話";
 
+        // 專案用 📁 當資料夾 icon
+        if (conv.isProject) {
+            title.textContent = "📁 " + (conv.title || "新專案");
+        } else {
+            title.textContent = conv.title || "新對話";
+        }
+
+        // ⭐ 專案按鈕
         const starBtn = document.createElement("button");
         starBtn.classList.add("conversation-star-btn");
         starBtn.textContent = conv.isProject ? "★" : "☆";
         starBtn.title = conv.isProject ? "移出專案" : "加入專案";
 
         starBtn.addEventListener("click", (e) => {
-            e.stopPropagation(); // 不要觸發 item 的 click
+            e.stopPropagation();
             conv.isProject = !conv.isProject;
             saveToStorage();
             renderSidebar();
         });
 
+        // ✏️ 重新命名按鈕
+        const renameBtn = document.createElement("button");
+        renameBtn.classList.add("conversation-rename-btn");
+        renameBtn.textContent = "✏️";
+        renameBtn.title = "重新命名";
+
+        renameBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const newName = window.prompt("請輸入新的名稱：", conv.title || "新對話");
+            if (newName && newName.trim()) {
+                conv.title = newName.trim();
+                saveToStorage();
+                renderSidebar();
+                if (conv.id === currentConversationId) {
+                    renderConversation();
+                }
+            }
+        });
+
+        // 🗑 刪除按鈕
         const deleteBtn = document.createElement("button");
         deleteBtn.classList.add("conversation-delete-btn");
         deleteBtn.textContent = "🗑";
         deleteBtn.title = "刪除此對話";
 
         deleteBtn.addEventListener("click", (e) => {
-            e.stopPropagation(); // 不要觸發 item 的 click
+            e.stopPropagation();
             deleteConversation(conv.id);
         });
 
         item.appendChild(dot);
         item.appendChild(title);
+        item.appendChild(renameBtn);
         item.appendChild(starBtn);
         item.appendChild(deleteBtn);
 
@@ -168,7 +194,12 @@ function renderConversation() {
 
     if (!conv) return;
 
-    currentConversationTitleEl.textContent = conv.title || "新對話";
+    // 上方標題：專案加 📁，一般對話不加
+    if (conv.isProject) {
+        currentConversationTitleEl.textContent = "📁 " + (conv.title || "新專案");
+    } else {
+        currentConversationTitleEl.textContent = conv.title || "新對話";
+    }
 
     if (conv.messages.length === 0) {
         const welcome = createMessageRow(
@@ -266,7 +297,6 @@ async function sendMessage(message) {
     scrollToBottom();
 
     try {
-        // 這裡是呼叫後端 /api/chat，記得後端要實作
         const res = await fetch("/api/chat", {
             method: "POST",
             headers: {
@@ -286,7 +316,6 @@ async function sendMessage(message) {
         conv.messages.push({ role: "assistant", text: reply });
         saveToStorage();
 
-        // 把 typing 換成真正回覆
         chatContainer.removeChild(typingRow);
         const botRow = createMessageRow("assistant", reply);
         chatContainer.appendChild(botRow);
@@ -334,6 +363,20 @@ newChatButton.addEventListener("click", () => {
     createConversation();
 });
 
+// 點擊上方標題可以重新命名目前對話 / 專案
+currentConversationTitleEl.addEventListener("click", () => {
+    const conv = getCurrentConversation();
+    if (!conv) return;
+
+    const newName = window.prompt("請輸入此對話／專案的新名稱：", conv.title || "新對話");
+    if (newName && newName.trim()) {
+        conv.title = newName.trim();
+        saveToStorage();
+        renderSidebar();
+        renderConversation();
+    }
+});
+
 // 初始化
 window.addEventListener("DOMContentLoaded", () => {
     const ok = loadFromStorage();
@@ -344,3 +387,5 @@ window.addEventListener("DOMContentLoaded", () => {
         renderConversation();
     }
 });
+
+
