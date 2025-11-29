@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <title>ChatDoctor Web AI Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app">
+
+    <!-- 左側側邊欄 -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">🤖</div>
+            <div class="sidebar-title">ChatDoctor</div>
+        </div>
+
+        <button class="sidebar-new-chat" id="newChatButton">
+            ＋ 新對話
+        </button>
+
+        <div class="sidebar-section-title">專案</div>
+        <nav class="conversation-list" id="projectList">
+            <!-- 專案列表由 JS 注入 -->
+        </nav>
+
+        <div class="sidebar-section-title">對話紀錄</div>
+        <nav class="conversation-list" id="conversationList">
+            <!-- 歷史對話由 JS 注入 -->
+        </nav>
+    </aside>
+
+    <!-- 右側主畫面 -->
+    <div class="main">
+
+        <header class="app-header">
+            <div class="app-title" id="currentConversationTitle">新對話</div>
+            <div class="app-subtitle">簡易版對話介面</div>
+        </header>
+
+        <main class="chat-container" id="chatContainer">
+            <!-- 訊息會由 JS 動態插入 -->
+        </main>
+
+        <form class="input-area" id="chatForm">
+            <textarea
+                id="userInput"
+                class="input-box"
+                rows="1"
+                placeholder="輸入訊息，按 Enter 送出，Shift + Enter 換行..."
+            ></textarea>
+            <button type="submit" class="send-button" id="sendButton">送出</button>
+        </form>
+    </div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
+
