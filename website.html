@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI 對話介面 Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- 外部 CSS -->
+  <link rel="stylesheet" href="website.css" />
+  <!-- 外部 JS -->
+  <script src="website.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    <!-- ===== 左側側邊欄 ===== -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-circle">
+          <div class="logo-circle-inner"></div>
+        </div>
+        <div class="sidebar-title">
+          <div class="sidebar-title-main">My AI Studio</div>
+          <div class="sidebar-title-sub">對話 · 實驗 · 草稿</div>
+        </div>
+      </div>
+
+      <button class="new-chat-btn">
+        <span class="icon">＋</span>
+        <span class="text">新對話</span>
+      </button>
+
+      <div class="sidebar-section-title">Recent Chats</div>
+      <div class="conversation-list">
+        <div class="conversation-item active">
+          <div class="conversation-dot"></div>
+          <div>
+            <div class="conversation-text-main">AI 頁面設計構想</div>
+            <div class="conversation-text-sub">正在編輯中…</div>
+          </div>
+        </div>
+
+        <div class="conversation-item">
+          <div class="conversation-dot" style="background:#64748b;"></div>
+          <div>
+            <div class="conversation-text-main">機械狗語音導航流程</div>
+            <div class="conversation-text-sub">上次更新：昨天</div>
+          </div>
+        </div>
+
+        <div class="conversation-item">
+          <div class="conversation-dot" style="background:#64748b;"></div>
+          <div>
+            <div class="conversation-text-main">影像世界模型 + MPC</div>
+            <div class="conversation-text-sub">研究筆記</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="profile-row">
+          <div class="avatar">你</div>
+          <div>
+            <div style="font-size:11px;">使用者</div>
+            <div style="font-size:10px; color:#6b7280;">Standard Workspace</div>
+          </div>
+        </div>
+        <div class="status-pill">
+          <span style="width:6px; height:6px; border-radius:999px; background:#22c55e;"></span>
+          <span>狀態：穩定</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ===== 右側主畫面 ===== -->
+    <main class="main">
+      <div class="glow-1"></div>
+      <div class="glow-2"></div>
+
+      <div class="main-inner">
+        <!-- 標題區（中央） -->
+        <header class="main-header">
+          <div class="title-block">
+            <!-- 這裡就是畫面中央的詢問標題 -->
+            <div class="title-main">你想問 AI 什麼問題？</div>
+            <div class="title-sub">在下方輸入框輸入指令即可開始對話</div>
+          </div>
+          <div class="main-header-btns">
+            <div class="tag-pill">模式：對話型</div>
+          </div>
+        </header>
+
+        <!-- 對話區 -->
+        <section class="chat-container">
+          <div class="chat-scroll" id="chat">
+            <!-- 範例：使用者訊息 -->
+            <div class="message-row user">
+              <div class="bubble-avatar user">你</div>
+              <div>
+                <div class="message-bubble user">
+                  可以幫我做一個像 GPT 一樣的對話網頁介面嗎？
+                </div>
+                <div class="message-meta">你 · 剛剛</div>
+              </div>
+            </div>
+
+            <!-- 範例：AI 訊息 -->
+            <div class="message-row">
+              <div class="bubble-avatar">AI</div>
+              <div>
+                <div class="message-bubble ai">
+                  當然可以！<br />
+                  我會幫你設計一個擁有左側分頁清單、右側對話框，以及
+                  中央詢問標題的介面。<br /><br />
+                  你可以把這個頁面當作未來整合 API 或後端功能的基底。
+                </div>
+                <div class="message-meta">AI · 系統回覆</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 輸入區 -->
+          <div class="input-container">
+            <div class="input-row">
+              <div class="input-box">
+                <span class="input-icon">🎤</span>
+                <textarea
+                  id="userInput"
+                  rows="1"
+                  placeholder="輸入訊息，按 Enter 送出（Shift + Enter 換行）"
+                ></textarea>
+                <span class="input-icon">📎</span>
+              </div>
+              <button class="send-btn" id="sendBtn">➤</button>
+            </div>
+            <div class="input-hint">
+              <span>提示：</span>目前為前端示意畫面，尚未串接真正的 AI API。
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
